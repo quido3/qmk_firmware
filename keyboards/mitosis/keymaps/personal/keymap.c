@@ -3,10 +3,12 @@
 enum mitosis_layers
 {
     _xW, // workman
-    _xQ, // qwerty
     _xS, // symbols
     _xN, // numbers
-    _xF  // functions
+    _xF,  // functions
+    _xQ, // qwerty
+    _xR, // qwerty function layer
+    _xE  // qwerty toggle layer
 };
 
 enum custom_keycodes {
@@ -39,13 +41,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     {XXXXXXX, KC_LSUP, KC_LCTL, MO(_xN), KC_LSFT, KC_RSFT, MO(_xN), KC_RCTL, KC_RSUP, XXXXXXX},
     {XXXXXXX, KC_LHYP, KC_LMTA, MO(_xS), KC_BSPC, KC_SPC,  MO(_xS), KC_RMTA, KC_RHYP, XXXXXXX}
   },
-  [_xQ] = {
-    {KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P},
-    {KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN},
-    {KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_QUOT},
-    {XXXXXXX, _______, _______, _______, _______, _______, _______, _______, _______, XXXXXXX},
-    {XXXXXXX, _______, _______, _______, _______, _______, _______, _______, _______, XXXXXXX}
-  },
   [_xS] = {
     {KC_ESC,  _______, KC_UP,   _______, _______, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_TILD},
     {KC_TAB,  KC_LEFT, KC_DOWN, KC_RGHT, _______, KC_CIRC, KC_AMPR, KC_PIPE, KC_GRV,  KC_UNDS},
@@ -66,6 +61,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     {TG(_xQ), KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_F15,  KC_F1,   KC_F2,   KC_F3,   KC_F12},
     {XXXXXXX, _______, _______, ___M___, _______, _______, ___M___, _______, _______, XXXXXXX},
     {XXXXXXX, _______, _______, _______, ___M___, ___M___, _______, _______, _______, XXXXXXX},
+  },
+  [_xQ] = {
+    {KC_LMTA, KC_Q,    KC_W,    KC_E,    KC_R,      KC_T,    KC_Y,    KC_U,    KC_I,    KC_O},
+    {KC_LSFT, KC_A,    KC_S,    KC_D,    KC_F,      KC_G,    KC_H,    KC_J,    KC_K,    KC_L},
+    {KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,      KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT},
+    {XXXXXXX, _______, KC_G,    _______, KC_I,      _______, _______, _______, _______, XXXXXXX},
+    {XXXXXXX, _______, KC_J,    MO(_xR), KC_SPC,    _______, _______, _______, _______, XXXXXXX}
+  },
+  [_xR] = {
+    {_______, _______, _______, KC_P1,   KC_P2 ,    _______, _______, _______, _______, _______},
+    {_______, _______, _______, _______, KC_P3 ,    _______, _______, _______, _______, _______},
+    {_______, _______, _______, KC_P4,   KC_P5 ,    _______, _______, _______, _______, _______},
+    {XXXXXXX, _______, _______, MO(_xE), KC_P6,     _______, _______, _______, _______, XXXXXXX},
+    {XXXXXXX, _______, _______, _______, _______,   _______, _______, _______, _______, XXXXXXX}
+  },
+  [_xE] = {
+    {_______, _______, _______, _______, _______,   _______, _______, _______, _______, _______},
+    {_______, _______, _______, _______, _______,   _______, _______, _______, _______, _______},
+    {TG(_xQ), _______, _______, _______, _______,   _______, _______, _______, _______, _______},
+    {XXXXXXX, _______, _______, _______, _______,   _______, _______, _______, _______, XXXXXXX},
+    {XXXXXXX, _______, _______, _______, _______,   _______, _______, _______, _______, XXXXXXX}
   },
 };
 
