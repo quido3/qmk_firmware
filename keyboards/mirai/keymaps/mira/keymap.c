@@ -28,65 +28,48 @@
 #define M_GUI  M(MACRO_GUI)
 #define B_TAB  M(BACK_TAB)
 
+enum custom_keycodes {
+    MACRO01 = SAFE_RANGE,
+    MACRO02,
+    MACRO03
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  /* Keymap _WL: Windows Layer (Layer for use in Windows OS, Default Layer when first flashed)
-   * ,------------------------------------------------------------.
-   * | 00| 01| 02| 03| 04| 05| 06| 07| 08| 09| 0a| 0b| 0c| 0d| 0e|
-   * |-----------------------------------------------------------|
-   * |   10| 11| 12| 13| 14| 15| 16| 17| 18| 19| 1a| 1b| 1c|   1e|
-   * |-----------------------------------------------------------|
-   * |   20| 21| 22| 23| 24| 25| 26| 27| 28| 29| 2a| 2b|   2c| 2e|
-   * |-----------------------------------------------------------|
-   * |   30| 31| 32| 33| 34| 35| 36| 37| 38| 39| 3a|   3c| 3d| 3e|
-   * |-----------------------------------------------------------|
-   * | 40| 41| 42|   43    | 45| 46|   48    | 4a| 4b| 4c| 4d| 4e|
-   * `-----------------------------------------------------------'
-   */
+
 [_ML] = KEYMAP(
-  KC_GESC,  KC_F1,    KC_F2,   KC_F3,     KC_F4,   KC_F5,  KC_F6,   KC_F7,  KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,            KC_HOME,  KC_PSCR,  KC_PAUSE, \
-  KC_NUHS,  KC_1,     KC_2,    KC_3,      KC_4,    KC_5,   KC_6,    KC_7,   KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,                      KC_BSPC,  KC_END, \
-  KC_TAB,   KC_Q,     KC_W,    KC_E,      KC_R,    KC_T,   KC_Y,    KC_U,   KC_I,     KC_O,     KC_P,     KC_LBRC,                     KC_RBRC,  KC_BSLS,  KC_DELETE, \
-  KC_CAPS,  KC_A,     KC_S,    KC_D,      KC_F,    KC_G,   KC_H,    KC_J,   KC_K,     KC_L,     KC_SCLN,            KC_QUOT,                     KC_ENT,   KC_PGUP, \
-  KC_LSFT,  KC_Z,              KC_X,      KC_C,    KC_V,   KC_B,    KC_N,   KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,                     KC_FN0,   KC_UP,    KC_PGDOWN, \
-  KC_LCTRL, KC_LGUI,  KC_LALT,                             KC_SPACE,                            KC_RALT,  KC_INS,   KC_LOCKING_SCROLL, KC_LEFT,  KC_DOWN,  KC_RGHT
+  KC_GESC,  KC_F1,    KC_F2,   KC_F3,     KC_F4,   KC_F5,  KC_F6,   KC_F7,  KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,            KC_HOME,  KC_DELETE,  KC_SCLN, \
+  KC_NUHS,  KC_1,     KC_2,    KC_3,      KC_4,    KC_5,   KC_6,    KC_7,   KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,                      KC_BSPC,    KC_QUOT, \
+  KC_TAB,   KC_Q,     KC_W,    KC_E,      KC_R,    KC_T,   KC_Y,    KC_U,   KC_I,     KC_O,     KC_P,     MACRO03,                     KC_RBRC,  KC_BSLS,    KC_LBRC, \
+  KC_CAPS,  KC_A,     KC_S,    KC_D,      KC_F,    KC_G,   KC_H,    KC_J,   KC_K,     KC_L,     MACRO02,            MACRO01,                     KC_ENT,     KC_PGUP, \
+  KC_LSFT,  KC_Z,              KC_X,      KC_C,    KC_V,   KC_B,    KC_N,   KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,                     KC_RSHF,  KC_UP,      KC_PGDOWN, \
+  KC_LCTRL, KC_LGUI,  KC_LALT,                             KC_SPACE,                            KC_RALT,  KC_INS,   KC_LOCKING_SCROLL, KC_LEFT,  KC_DOWN,    KC_RGHT
 
   ) ,
 };
-
 /*
-const uint16_t PROGMEM fn_actions[] = {
-
-};
+KC_SCLN, KC_QUOT
 */
-
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
-  // MACRODOWN only works in this function
       switch(id) {
-        case MACRO_GUI:{
-          if (record->event.pressed){
-            //when key is PRESSED
-            return MACRO(D(LGUI), END);
+        case MACRO01:
+          if(record->event.pressed){
+            SEND_STRING(SS_LSFT("'")"a");
+            return false;
           }
-          else {
-            return MACRO(U(LGUI), END);
+        case MACRO02:
+          if(record->event.pressed){
+            SEND_STRING(SS_LSFT("'")"o");
+            return false;
           }
-
-          break;
+        case MACRO03:
+          if(record->event.pressed){
+            SEND_STRING(SS_RALT("a"));
+            return false;
+          }
+        default:
+          return true;
         }
-
-        case BACK_TAB:{
-          if (record->event.pressed){
-            //when key is PRESSED
-            return MACRO(D(LSHIFT), D(TAB), END);
-          }
-          else {
-            return MACRO(U(LSHIFT), U(TAB), END);
-          }
-
-          break;
-        }
-      }
     return MACRO_NONE;
 };
 
